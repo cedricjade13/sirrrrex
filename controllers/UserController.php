@@ -29,18 +29,25 @@ class UserController {
     }
 
     // Get states from the database using the User model
-    public function getStates() {
-        return $this->userModel->getStates();
+    // usercontroller.php
+    public function getStatesByCountry($country) {
+        $stmt = $this->userModel->getStatesByCountry($country);
+        return $stmt;
     }
 
-    // Get districts by stateId using the User model
-    public function getDistricts($stateId) {
-        return $this->userModel->getDistricts($stateId);
+    public function getCitiesByState($state) {
+        $stmt = $this->userModel->getCitiesByState($state);
+        return $stmt;
     }
 
-    // Get neighborhoods by districtId using the User model
-    public function getNeighborhoods($districtId) {
-        return $this->userModel->getNeighborhoods($districtId);
+    public function getDistrictsByCity($city) {
+        $stmt = $this->userModel->getDistrictsByCity($city);
+        return $stmt;
+    }
+
+    public function getNeighborhoodsByDistrict($district) {
+        $stmt = $this->userModel->getNeighborhoodsByDistrict($district);
+        return $stmt;
     }
 }
 ?>

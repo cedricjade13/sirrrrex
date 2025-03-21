@@ -320,18 +320,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="info-grid">
                     <div class="info-row">
                         <div>
-                            <input type="text" name="place_of_birth_city" placeholder="Place of Birth (City)" value="<?php echo htmlspecialchars($data['place_of_birth_city'] ?? ''); ?>" >
-                        </div>
-                        <div>
-                            <input type="text" name="place_of_birth_province" placeholder="Place of Birth (Province)" value="<?php echo htmlspecialchars($data['place_of_birth_province'] ?? ''); ?>" >
-                        </div>
-                        <div>
-                            <select name="place_of_birth_country" >
+                            <select name="place_of_birth_country" id="place_of_birth_country">
                                 <option value="">Select Country</option>
                                 <option value="USA" <?php echo (isset($data['place_of_birth_country']) && $data['place_of_birth_country'] === 'USA') ? 'selected' : ''; ?>>USA</option>
                                 <option value="Canada" <?php echo (isset($data['place_of_birth_country']) && $data['place_of_birth_country'] === 'Canada') ? 'selected' : ''; ?>>Canada</option>
                                 <option value="UK" <?php echo (isset($data['place_of_birth_country']) && $data['place_of_birth_country'] === 'UK') ? 'selected' : ''; ?>>UK</option>
                                 <option value="Australia" <?php echo (isset($data['place_of_birth_country']) && $data['place_of_birth_country'] === 'Australia') ? 'selected' : ''; ?>>Australia</option>
+                                <option value="Philippines" <?php echo (isset($data['place_of_birth_country']) && $data['place_of_birth_country'] === 'Philippines') ? 'selected' : ''; ?>>Philippines</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select name="place_of_birth_state" id="place_of_birth_state">
+                                <option value="">Select State</option>
+                                <!-- States will be populated here via AJAX -->
+                            </select>
+                        </div>
+                        <div>
+                            <select name="place_of_birth_city" id="place_of_birth_city">
+                                <option value="">Select City</option>
+                                <!-- States will be populated here via AJAX -->
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div class="info-row">
+                        
+                        <div>
+                            <select name="place_of_birth_district" id="place_of_birth_district">
+                                <option value="">Select District</option>
+                                <!-- States will be populated here via AJAX -->
+                            </select>
+                        </div>
+                        <div>
+                            <select name="place_of_birth_neighborhood" id="place_of_birth_neighborhood">
+                                <option value="">Select Neighborhood</option>
+                                <!-- States will be populated here via AJAX -->
                             </select>
                         </div>
                     </div>
@@ -342,19 +365,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h2 class="section-title">Home Address</h2>
                 <div class="info-grid">
                     <div class="info-row">
+                    
+
                         <div>
-                            <input type="text" name="home_address_city" placeholder="Home Address (City)" value="<?php echo htmlspecialchars($data['home_address_city'] ?? ''); ?>" >
-                        </div>
-                        <div>
-                            <input type="text" name="home_address_province" placeholder="Home Address (Province)" value="<?php echo htmlspecialchars($data['home_address_province'] ?? ''); ?>" >
-                        </div>
-                        <div>
-                            <select name="home_address_country" >
+                            <select name="home_address_country" id="home_address_country">
                                 <option value="">Select Country</option>
                                 <option value="USA" <?php echo (isset($data['home_address_country']) && $data['home_address_country'] === 'USA') ? 'selected' : ''; ?>>USA</option>
                                 <option value="Canada" <?php echo (isset($data['home_address_country']) && $data['home_address_country'] === 'Canada') ? 'selected' : ''; ?>>Canada</option>
                                 <option value="UK" <?php echo (isset($data['home_address_country']) && $data['home_address_country'] === 'UK') ? 'selected' : ''; ?>>UK</option>
                                 <option value="Australia" <?php echo (isset($data['home_address_country']) && $data['home_address_country'] === 'Australia') ? 'selected' : ''; ?>>Australia</option>
+                                <option value="Philippines" <?php echo (isset($data['place_of_birth_country']) && $data['place_of_birth_country'] === 'Philippines') ? 'selected' : ''; ?>>Philippines</option>
+                                <option value="Europe" <?php echo (isset($data['place_of_birth_country']) && $data['place_of_birth_country'] === 'Europe') ? 'selected' : ''; ?>>Europe</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select name="home_address_state" id="home_address_state">
+                                <option value="">Select State</option>
+                                <!-- States will be populated here via AJAX -->
+                            </select>
+                        </div>
+                        <div>
+                            <select name="home_address_city" id="home_address_city">
+                                <option value="">Select City</option>
+                                <!-- States will be populated here via AJAX -->
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div class="info-row">
+                        
+                        <div>
+                            <select name="home_address_district" id="home_address_district">
+                                <option value="">Select District</option>
+                                <!-- States will be populated here via AJAX -->
+                            </select>
+                        </div>
+                        <div>
+                            <select name="home_address_neighborhood" id="home_address_neighborhood">
+                                <option value="">Select Neighborhood</option>
+                                <!-- States will be populated here via AJAX -->
                             </select>
                         </div>
                     </div>
@@ -464,6 +513,122 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         document.addEventListener('DOMContentLoaded', function() {
             toggleOtherCivilStatus(); // Call the function to set the initial state
         });
+
+        // Dynamic loading of states, cities, districts, and neighborhoods
+    document.getElementById('place_of_birth_country').addEventListener('change', function() {
+        var country = this.value;
+        fetch(`get_locations.php?country=${country}`)
+            .then(response => response.json())
+            .then(data => {
+                var stateSelect = document.getElementById('place_of_birth_state');
+                stateSelect.innerHTML = '<option value="">Select State</option>'; // Reset states
+                data.states.forEach(state => {
+                    stateSelect.innerHTML += `<option value="${state.name}">${state.name}</option>`;
+                });
+            });
+    });
+
+    document.getElementById('place_of_birth_state').addEventListener('change', function() {
+        var state = this.value;
+        fetch(`get_locations.php?state=${state}`)
+            .then(response => response.json())
+            .then(data => {
+                var citySelect = document.getElementById('place_of_birth_city');
+                citySelect.innerHTML = '<option value="">Select City</option>'; // Reset cities
+                data.cities.forEach(city => {
+                    citySelect.innerHTML += `<option value="${city.name}">${city.name}</option>`;
+                });
+            });
+    });
+
+    document.getElementById('home_address_country').addEventListener('change', function() {
+        var country = this.value;
+        fetch(`get_locations.php?country=${country}`)
+            .then(response => response.json())
+            .then(data => {
+                var stateSelect = document.getElementById('home_address_state');
+                stateSelect.innerHTML = '<option value="">Select State</option>'; // Reset states
+                data.states.forEach(state => {
+                    stateSelect.innerHTML += `<option value="${state.name}">${state.name}</option>`;
+                });
+            });
+    });
+
+    document.getElementById('home_address_state').addEventListener('change', function() {
+        var state = this.value;
+        fetch(`get_locations.php?state=${state}`)
+            .then(response => response.json())
+            .then(data => {
+                var citySelect = document.getElementById('home_address_city');
+                citySelect.innerHTML = '<option value="">Select City</option>'; // Reset cities
+                data.cities.forEach(city => {
+                    citySelect.innerHTML += `<option value="${city.name}">${city.name}</option>`;
+                });
+            });
+    });
+
+    document.getElementById('place_of_birth_city').addEventListener('change', function() {
+        const city = this.value;
+        fetch(`get_locations.php?city=${city}`)
+            .then(response => response.json())
+            .then(data => {
+                const districtSelect = document.getElementById('place_of_birth_district');
+                districtSelect.innerHTML = '<option value="">Select District</option>'; // Reset districts
+                data.districts.forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district.name; // Assuming 'name' is the district name
+                    option.textContent = district.name;
+                    districtSelect.appendChild(option);
+                });
+            });
+    });
+
+    document.getElementById('place_of_birth_district').addEventListener('change', function() {
+        const district = this.value;
+        fetch(`get_locations.php?district=${district}`)
+            .then(response => response.json())
+            .then(data => {
+                const neighborhoodSelect = document.getElementById('place_of_birth_neighborhood');
+                neighborhoodSelect.innerHTML = '<option value="">Select Neighborhood</option>'; // Reset neighborhoods
+                data.neighborhoods.forEach(neighborhood => {
+                    const option = document.createElement('option');
+                    option.value = neighborhood.name; // Assuming 'name' is the neighborhood name
+                    option.textContent = neighborhood.name;
+                    neighborhoodSelect.appendChild(option);
+                });
+            });
+    });
+    document.getElementById('home_address_city').addEventListener('change', function() {
+        const city = this.value;
+        fetch(`get_locations.php?city=${city}`)
+            .then(response => response.json())
+            .then(data => {
+                const districtSelect = document.getElementById('home_address_district');
+                districtSelect.innerHTML = '<option value="">Select District</option>'; // Reset districts
+                data.districts.forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district.name; // Assuming 'name' is the district name
+                    option.textContent = district.name;
+                    districtSelect.appendChild(option);
+                });
+            });
+    });
+
+    document.getElementById('home_address_district').addEventListener('change', function() {
+        const district = this.value;
+        fetch(`get_locations.php?district=${district}`)
+            .then(response => response.json())
+            .then(data => {
+                const neighborhoodSelect = document.getElementById('home_address_neighborhood');
+                neighborhoodSelect.innerHTML = '<option value="">Select Neighborhood</option>'; // Reset neighborhoods
+                data.neighborhoods.forEach(neighborhood => {
+                    const option = document.createElement('option');
+                    option.value = neighborhood.name; // Assuming 'name' is the neighborhood name
+                    option.textContent = neighborhood.name;
+                    neighborhoodSelect.appendChild(option);
+                });
+            });
+    });
     </script>
 </body>
 </html>

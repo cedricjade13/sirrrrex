@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2025 at 12:47 AM
+-- Generation Time: Mar 21, 2025 at 10:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,132 @@ SET time_zone = "+00:00";
 --
 -- Database: `personal_data_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cities`
+--
+
+CREATE TABLE `cities` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `state_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cities`
+--
+
+INSERT INTO `cities` (`id`, `name`, `state_id`) VALUES
+(1, 'Los Angeles', 1),
+(2, 'San Francisco', 1),
+(3, 'Houston', 2),
+(4, 'Toronto', 3),
+(5, 'Montreal', 4),
+(6, 'London', 5),
+(7, 'Sydney', 6),
+(8, 'Mumbai', 7),
+(9, 'Munich', 8),
+(10, 'Paris', 9),
+(11, 'São Paulo', 10),
+(12, 'Tokyo', 11),
+(13, 'Johannesburg', 12),
+(27, 'Minglanilla', 16);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `countries`
+--
+
+CREATE TABLE `countries` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `countries`
+--
+
+INSERT INTO `countries` (`id`, `name`) VALUES
+(4, 'Australia'),
+(8, 'Brazil'),
+(2, 'Canada'),
+(12, 'Europe'),
+(7, 'France'),
+(6, 'Germany'),
+(5, 'India'),
+(9, 'Japan'),
+(11, 'Philippines'),
+(10, 'South Africa'),
+(3, 'United Kingdom'),
+(1, 'United States');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `districts`
+--
+
+CREATE TABLE `districts` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `city_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `districts`
+--
+
+INSERT INTO `districts` (`id`, `name`, `city_id`) VALUES
+(1, 'Downtown', 1),
+(2, 'Hollywood', 1),
+(3, 'Uptown', 2),
+(4, 'Downtown', 3),
+(5, 'Scarborough', 4),
+(6, 'Old Montreal', 5),
+(7, 'Westminster', 6),
+(8, 'Central Coast', 7),
+(9, 'Dadar', 8),
+(10, 'Altstadt', 9),
+(11, 'Montmartre', 10),
+(12, 'Centro', 11),
+(13, 'Sandton', 12),
+(14, 'Vito', 27);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `neighborhoods`
+--
+
+CREATE TABLE `neighborhoods` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `district_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `neighborhoods`
+--
+
+INSERT INTO `neighborhoods` (`id`, `name`, `district_id`) VALUES
+(1, 'Arts District', 1),
+(2, 'Silver Lake', 1),
+(3, 'Nob Hill', 2),
+(4, 'Midtown', 3),
+(5, 'Yorkville', 4),
+(6, 'Plateau', 5),
+(7, 'Soho', 6),
+(8, 'Bondi Beach', 7),
+(9, 'Juhu', 8),
+(10, 'Lehel', 9),
+(11, 'Montparnasse', 10),
+(12, 'Liberdade', 11),
+(13, 'Harajuku', 12),
+(14, 'Rosebank', 13),
+(15, 'Acoy', 14);
 
 -- --------------------------------------------------------
 
@@ -81,9 +207,70 @@ INSERT INTO `personal_data` (`id`, `last_name`, `first_name`, `middle_initial`, 
 (7, 'Nielsen', 'Echo', 'P', '2004-01-25', 'Male', 'Others', 'asdas', '841', 'Laborum asperiores e', 'Adipisicing lorem no', 'Laborum quidem deser', 'Veniam cum aperiam ', 'Vera Landry', 'Recusandae Laudanti', 'Iusto est voluptate ', 'Sed impedit qui qui', 'Omnis sunt est omni', 'Ecuador', '65707', 'Omnis anim aliquam e', 'Ad laborum Elit ea', 'Cameron Lara', 'Elit praesentium qu', 'Ullam adipisicing mi', 'Tempore incididunt ', 'Aliquip minim Nam ma', 'Switzerland', '46268', '71', 'sivupy@mailinator.com', '+1 (326) 891-12', 'Rosa', 'Elliott', 'Abigail Walton', 'Whitaker', 'Quamar', 'Chancellor Hartman'),
 (8, 'Schneider', 'Bo', 'Q', '1994-05-04', 'Male', 'Others', 'hehe', '739', 'Laborum pariatur Ea', 'Pariatur Eligendi q', 'Suscipit sed autem f', 'Impedit non exceptu', 'Macey Guthrie', 'Distinctio Deserunt', 'Est reiciendis tempo', 'Provident sunt dolo', 'Vel excepturi placea', '', '18871', 'Itaque unde incidunt', 'Aliqua Nemo velit n', 'Aiko Valencia', 'Vitae commodi repell', 'Et mollit sint cumqu', 'Obcaecati aut ea aut', 'Optio quasi quis ve', '', '77658', '387', 'joquwewol@mailinator.com', '+1 (268) 599-52', 'Bryan', 'Akeem', 'Willa Schroeder', 'Gibbs', 'Shea', 'Irene Madden');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `states`
+--
+
+CREATE TABLE `states` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `country_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `states`
+--
+
+INSERT INTO `states` (`id`, `name`, `country_id`) VALUES
+(1, 'California', 1),
+(2, 'Texas', 1),
+(3, 'Ontario', 2),
+(4, 'Quebec', 2),
+(5, 'England', 3),
+(6, 'New South Wales', 4),
+(7, 'Maharashtra', 5),
+(8, 'Bavaria', 6),
+(9, 'Île-de-France', 7),
+(10, 'São Paulo', 8),
+(11, 'Tokyo', 9),
+(12, 'Gauteng', 10),
+(14, 'Manila', 11),
+(15, 'Bulgaria', 12),
+(16, 'Cebu', 11);
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `cities`
+--
+ALTER TABLE `cities`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `state_id` (`state_id`);
+
+--
+-- Indexes for table `countries`
+--
+ALTER TABLE `countries`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `districts`
+--
+ALTER TABLE `districts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `city_id` (`city_id`);
+
+--
+-- Indexes for table `neighborhoods`
+--
+ALTER TABLE `neighborhoods`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `district_id` (`district_id`);
 
 --
 -- Indexes for table `personal_data`
@@ -92,132 +279,81 @@ ALTER TABLE `personal_data`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `states`
+--
+ALTER TABLE `states`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `country_id` (`country_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `cities`
+--
+ALTER TABLE `cities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `countries`
+--
+ALTER TABLE `countries`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `districts`
+--
+ALTER TABLE `districts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `neighborhoods`
+--
+ALTER TABLE `neighborhoods`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `personal_data`
 --
 ALTER TABLE `personal_data`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `states`
+--
+ALTER TABLE `states`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `cities`
+--
+ALTER TABLE `cities`
+  ADD CONSTRAINT `cities_ibfk_1` FOREIGN KEY (`state_id`) REFERENCES `states` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `districts`
+--
+ALTER TABLE `districts`
+  ADD CONSTRAINT `districts_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `neighborhoods`
+--
+ALTER TABLE `neighborhoods`
+  ADD CONSTRAINT `neighborhoods_ibfk_1` FOREIGN KEY (`district_id`) REFERENCES `districts` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `states`
+--
+ALTER TABLE `states`
+  ADD CONSTRAINT `states_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
--- Create table for Countries
-CREATE TABLE `countries` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(100) NOT NULL UNIQUE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Create table for States/Provinces
-CREATE TABLE `states` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(100) NOT NULL,
-  `country_id` INT NOT NULL,
-  FOREIGN KEY (`country_id`) REFERENCES `countries`(`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Create table for Cities/Towns
-CREATE TABLE `cities` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(100) NOT NULL,
-  `state_id` INT NOT NULL,
-  FOREIGN KEY (`state_id`) REFERENCES `states`(`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Create table for Districts
-CREATE TABLE `districts` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(100) NOT NULL,
-  `city_id` INT NOT NULL,
-  FOREIGN KEY (`city_id`) REFERENCES `cities`(`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Create table for Neighborhoods/Areas
-CREATE TABLE `neighborhoods` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(100) NOT NULL,
-  `district_id` INT NOT NULL,
-  FOREIGN KEY (`district_id`) REFERENCES `districts`(`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
--- Insert sample countries
-INSERT INTO `countries` (`name`) VALUES
-('United States'),
-('Canada'),
-('United Kingdom'),
-('Australia'),
-('India'),
-('Germany'),
-('France'),
-('Brazil'),
-('Japan'),
-('South Africa');
-
--- Insert sample states
-INSERT INTO `states` (`name`, `country_id`) VALUES
-('California', 1),
-('Texas', 1),
-('Ontario', 2),
-('Quebec', 2),
-('England', 3),
-('New South Wales', 4),
-('Maharashtra', 5),
-('Bavaria', 6),
-('Île-de-France', 7),
-('São Paulo', 8),
-('Tokyo', 9),
-('Gauteng', 10);
-
--- Insert sample cities
-INSERT INTO `cities` (`name`, `state_id`) VALUES
-('Los Angeles', 1),
-('San Francisco', 1),
-('Houston', 2),
-('Toronto', 3),
-('Montreal', 4),
-('London', 5),
-('Sydney', 6),
-('Mumbai', 7),
-('Munich', 8),
-('Paris', 9),
-('São Paulo', 10),
-('Tokyo', 11),
-('Johannesburg', 12);
-
--- Insert sample districts
-INSERT INTO `districts` (`name`, `city_id`) VALUES
-('Downtown', 1),
-('Hollywood', 1),
-('Uptown', 2),
-('Downtown', 3),
-('Scarborough', 4),
-('Old Montreal', 5),
-('Westminster', 6),
-('Central Coast', 7),
-('Dadar', 8),
-('Altstadt', 9),
-('Montmartre', 10),
-('Centro', 11),
-('Sandton', 12);
-
--- Insert sample neighborhoods
-INSERT INTO `neighborhoods` (`name`, `district_id`) VALUES
-('Arts District', 1),
-('Silver Lake', 1),
-('Nob Hill', 2),
-('Midtown', 3),
-('Yorkville', 4),
-('Plateau', 5),
-('Soho', 6),
-('Bondi Beach', 7),
-('Juhu', 8),
-('Lehel', 9),
-('Montparnasse', 10),
-('Liberdade', 11),
-('Harajuku', 12),
-('Rosebank', 13);

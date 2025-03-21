@@ -102,35 +102,35 @@ class User {
     }
 
     // Method to get countries
-    public function getCountries() {
-        $sql = "SELECT * FROM countries";
-        $result = $this->conn->query($sql);
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    // Method to get states
-    public function getStates($countryId) {
-        $sql = "SELECT * FROM states WHERE country_id = ?";
-        $stmt = $this->conn->prepare($sql); // Prepare the SQL statement
-        $stmt->bind_param("i", $countryId); // Bind the country_id parameter
-        $stmt->execute(); // Execute the statement
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC); // Fetch all results as an associative array
-    }
-
-    // Method to get districts by stateId
-    public function getDistricts($stateId) {
-        $sql = "SELECT * FROM districts WHERE state_id = ?";
+    // user.php
+    public function getStatesByCountry($country) {
+        $sql = "SELECT * FROM states WHERE country_id = (SELECT id FROM countries WHERE name = ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $stateId);
+        $stmt->bind_param("s", $country);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Method to get neighborhoods by districtId
-    public function getNeighborhoods($districtId) {
-        $sql = "SELECT * FROM neighborhoods WHERE district_id = ?";
+    public function getCitiesByState($state) {
+        $sql = "SELECT * FROM cities WHERE state_id = (SELECT id FROM states WHERE name = ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $districtId);
+        $stmt->bind_param("s", $state);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getDistrictsByCity($city) {
+        $sql = "SELECT * FROM districts WHERE city_id = (SELECT id FROM cities WHERE name = ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $city);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getNeighborhoodsByDistrict($district) {
+        $sql = "SELECT * FROM neighborhoods WHERE district_id = (SELECT id FROM districts WHERE name = ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $district);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
